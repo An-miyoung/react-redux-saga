@@ -1,5 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -24,18 +29,24 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async () => {
-  const userDocRef = doc(db, "users", auth.currentUser.uid);
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInfo = {}
+) => {
+  if (!userAuth) return;
+
+  const userDocRef = doc(db, "users", userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
   if (!userSnapshot.exists()) {
-    const { displayName, email } = auth.currentUser;
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
       await setDoc(userDocRef, {
         displayName,
         email,
         createdAt,
+        ...additionalInfo,
       });
     } catch (error) {
       console.log("사용자계정 먼들기에 실패했씁니다.", error.message);
@@ -43,4 +54,10 @@ export const createUserDocumentFromAuth = async () => {
   }
 
   return userDocRef;
+};
+
+export const createAuthUserWithEmailandPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
 };
