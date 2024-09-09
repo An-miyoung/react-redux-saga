@@ -55,8 +55,7 @@ const SignUpForm = () => {
 
   return (
     <div className="sign-up-container">
-      <h2>회원이 아니신가요?</h2>
-      <span>회원가입하기</span>
+      <h2>아직 회원이 아니신가요?</h2>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="이름"
@@ -94,9 +93,7 @@ const SignUpForm = () => {
           required
         />
 
-        <Button type="submit" buttonType="inverted">
-          회원가입
-        </Button>
+        <Button type="submit">회원가입</Button>
       </form>
     </div>
   );

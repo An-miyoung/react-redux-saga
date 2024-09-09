@@ -14,6 +14,8 @@ const errorMessageToKorean = (errorMessage) => {
       return "잘못된 이메일 형식입니다.";
     case "auth/internal-error":
       return "잘못된 요청입니다.";
+    case "auth/invalid-credential":
+      return "가입되지 않은 이메일입니다.";
     default:
       return "로그인에 실패 하였습니다.";
   }
