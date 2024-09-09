@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   signInWithGooglePopup,
   createUserDocumentFromAuth,
@@ -8,6 +8,8 @@ import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./sign-in-form.styles.scss";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
+import { UserContext } from "../../context/user.context";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   email: "",
@@ -15,12 +17,15 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext);
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
+    setCurrentUser(user.uid);
   };
 
   const resetFormFields = () => {
@@ -36,9 +41,13 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithWmailAndPassword(email, password);
-
+      const { user } = await signInAuthUserWithWmailAndPassword(
+        email,
+        password
+      );
+      setCurrentUser(user.uid);
       resetFormFields();
+      navigate("/");
     } catch (error) {
       error.code && alert(errorMessageToKorean(error.code));
       console.log("로그인에 실패했습니다.", error.message);
