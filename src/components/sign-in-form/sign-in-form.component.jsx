@@ -1,14 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   signInAuthUserWithWmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./sign-in-form.styles.scss";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
-import { UserContext } from "../../context/user.context";
 import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
@@ -18,15 +16,11 @@ const defaultFormFields = {
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(UserContext);
+
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
-    setCurrentUser(user.uid);
-  };
+  const signInWithGoogle = async () => await signInWithGooglePopup();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -41,11 +35,8 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const { user } = await signInAuthUserWithWmailAndPassword(
-        email,
-        password
-      );
-      setCurrentUser(user.uid);
+      await signInAuthUserWithWmailAndPassword(email, password);
+
       resetFormFields();
       navigate("/");
     } catch (error) {
@@ -78,7 +69,11 @@ const SignInForm = () => {
           />
           <div className="buttons-container">
             <Button type="submit">로그인</Button>
-            <Button type="button" onClick={logGoogleUser} buttonType="google">
+            <Button
+              type="button"
+              onClick={signInWithGoogle}
+              buttonType="google"
+            >
               Google 로그인
             </Button>
           </div>
