@@ -3,7 +3,7 @@ import {
   signInWithGooglePopup,
   signInAuthUserWithWmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./sign-in-form.styles.scss";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
@@ -72,7 +72,7 @@ const SignInForm = () => {
             <Button
               type="button"
               onClick={signInWithGoogle}
-              buttonType="google"
+              buttonType={BUTTON_TYPES_CLASSES.google}
             >
               Google 로그인
             </Button>

@@ -7,7 +7,7 @@ import errorMessageToKorean from "../../utils/errorMessageToKorean";
 import FormInput from "../form-input/form-input.component";
 
 import "./sign-up-form.styles.scss";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import { useNavigate } from "react-router-dom";
 
 const defaultFormField = {
@@ -96,7 +96,9 @@ const SignUpForm = () => {
           required
         />
 
-        <Button type="submit">회원가입</Button>
+        <Button type="submit" buttonType={BUTTON_TYPES_CLASSES.base}>
+          회원가입
+        </Button>
       </form>
     </div>
   );
