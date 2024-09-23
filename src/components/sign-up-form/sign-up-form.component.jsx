@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createAuthUserWithEmailandPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
 import FormInput from "../form-input/form-input.component";
-
-import "./sign-up-form.styles.scss";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
-import { useNavigate } from "react-router-dom";
+
+import { SignUpContainer } from "./sign-up-form.styles";
 
 const defaultFormField = {
   displayName: "",
@@ -57,7 +57,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>아직 회원이 아니신가요?</h2>
       <form onSubmit={handleSubmit}>
         <FormInput
@@ -100,7 +100,7 @@ const SignUpForm = () => {
           회원가입
         </Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

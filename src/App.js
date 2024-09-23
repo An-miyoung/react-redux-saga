@@ -5,8 +5,6 @@ import Shop from "./routes/shop/shop.component";
 import Authentication from "./components/authentication/authentication.component";
 import Checkout from "./routes/checkout/checkout.component";
 
-import "./App.styles.scss";
-
 const App = () => {
   return (
     <Routes>

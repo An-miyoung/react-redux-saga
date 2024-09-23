@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   signInWithGooglePopup,
   signInAuthUserWithWmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import "./sign-in-form.styles.scss";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
-import { useNavigate } from "react-router-dom";
+
+import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
 
 const defaultFormFields = {
   email: "",
@@ -46,40 +47,38 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="">
-      <div className="sign-in-container">
-        <h2>이미 회원이신가요?</h2>
-        <form onSubmit={handleSubmit}>
-          <FormInput
-            label="이메일"
-            type="email"
-            value={email}
-            name="email"
-            onChange={handleChange}
-            required
-          />
+    <SignInContainer>
+      <h2>이미 회원이신가요?</h2>
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          label="이메일"
+          type="email"
+          value={email}
+          name="email"
+          onChange={handleChange}
+          required
+        />
 
-          <FormInput
-            label="비밀번호"
-            type="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-            required
-          />
-          <div className="buttons-container">
-            <Button type="submit">로그인</Button>
-            <Button
-              type="button"
-              onClick={signInWithGoogle}
-              buttonType={BUTTON_TYPES_CLASSES.google}
-            >
-              Google 로그인
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <FormInput
+          label="비밀번호"
+          type="password"
+          value={password}
+          name="password"
+          onChange={handleChange}
+          required
+        />
+        <ButtonsContainer>
+          <Button type="submit">로그인</Button>
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPES_CLASSES.google}
+          >
+            Google 로그인
+          </Button>
+        </ButtonsContainer>
+      </form>
+    </SignInContainer>
   );
 };
 

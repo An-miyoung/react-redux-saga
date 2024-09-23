@@ -1,11 +1,13 @@
-.sign-in-container {
+import styled from "styled-components";
+
+export const SignInContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 380px;
-}
+`;
 
-.buttons-container {
+export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
+`;
