@@ -3,6 +3,7 @@ import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
 } from "../utils/firebase/firebase.utils";
+import { createAction } from "../utils/reducer/reducer.utls";
 
 export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
@@ -20,7 +21,7 @@ const userReducer = (state, action) => {
     case USER_ACTION_TYPES.SET_CURRENT_USER:
       return { ...state, currentUser: payload };
     default:
-      throw Error(`Unhandeld type ${type} in userReducer!`);
+      throw new Error(`Unhandeld type ${type} in userReducer!`);
   }
 };
 
@@ -33,7 +34,7 @@ export const UserProvider = ({ children }) => {
 
   const { currentUser } = state;
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
 
   const value = { currentUser, setCurrentUser };
