@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react";
 import { createAction } from "../utils/reducer/reducer.utls";
 
-export const CART_ACTION_TYPES = {
+const CART_ACTION_TYPES = {
   TOGGLE_CART_OPEN: "TOGGLE_CART_OPEN",
   SET_CART_ITEMS: "SET_CART_ITEMS",
 };
