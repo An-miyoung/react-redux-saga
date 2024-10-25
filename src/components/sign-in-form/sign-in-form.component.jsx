@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import {
-  signInWithGooglePopup,
-  signInAuthUserWithWmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+  emailSigninStart,
+  googleSigninStart,
+} from "../../store/user/user.action";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
-
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
 
 const defaultFormFields = {
@@ -17,11 +18,15 @@ const defaultFormFields = {
 
 const SignInForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const signInWithGoogle = async () => await signInWithGooglePopup();
+  const signInWithGoogle = async () => {
+    dispatch(googleSigninStart());
+    navigate("/");
+  };
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -36,7 +41,7 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithWmailAndPassword(email, password);
+      dispatch(emailSigninStart(email, password));
 
       resetFormFields();
       navigate("/");

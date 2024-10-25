@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  createAuthUserWithEmailandPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
+import { signUpStart } from "../../store/user/user.action";
 import errorMessageToKorean from "../../utils/errorMessageToKorean";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPES_CLASSES } from "../button/button.component";
-
 import { SignUpContainer } from "./sign-up-form.styles";
 
 const defaultFormField = {
@@ -19,6 +16,7 @@ const defaultFormField = {
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormField);
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -40,13 +38,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const { user } = await createAuthUserWithEmailandPassword(
-        email,
-        password
-      );
-      await createUserDocumentFromAuth(user, {
-        displayName,
-      });
+      dispatch(signUpStart(email, password, displayName));
 
       resetFormFields();
       navigate("/");
